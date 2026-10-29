@@ -18,16 +18,16 @@ El empaquetador prepara `frontend-prueba/v4/dist/public/` y `frontend-prueba/v4/
 
 - **Inicio:** identidad, categorías y acceso al directorio.
 - **Directorio:** los 66 registros públicos, búsqueda por TDA/rubro y fichas. Los negocios permanecen como “Marca por confirmar” mientras no se confirme un nombre.
-- **Brief:** formulario guiado. Sin backend configurado, los borradores permanecen en el navegador y se pueden exportar para entregarlos por el canal indicado por coordinación.
+- **Brief:** formulario guiado con envío al proyecto Supabase de la galería. Conserva el borrador local y solo declara recepción al recibir comprobante del servidor; si falla la conexión permite reintentar o exportar.
 - **Estudio creativo:** presentación de 10 diapositivas con ideas de comunicación.
 - **Referencias:** 24 candidatas y seis conceptos visuales para evaluación. Son referencias de inspiración, no avales ni resultados verificados.
 - **Personalizar:** ajustes locales del sitio. Los datos comerciales solo se incorporan al catálogo cuando se marcan como confirmados.
 - **Tienda demo:** prototipo legado aislado, señalado como demostración con datos ficticios.
 
-La configuración de V4 está sin activar para recepción central: el cliente no declara un backend operativo en la publicación actual. La organización ya preparó el proyecto y dispone de su clave pública, pero debe ejecutar y validar la migración SQL, crear las cuentas autorizadas de coordinación y terminar la configuración de acceso/red antes de generar una publicación con la URL y clave públicas. La contraseña de administración de la base de datos no forma parte del sitio ni del paquete. No incluyas claves privadas, `service_role`, archivos `supabase-config.pending.json`, respuestas de briefs ni registros de coordinación en una publicación.
+La publicación incluye únicamente la URL y la clave Publishable del proyecto Supabase autorizado. El 29 de octubre de 2026, la persona propietaria ejecutó el SQL en Supabase y confirmó mediante captura el inventario de 66 filas. La recepción extremo a extremo y el acceso de coordinación todavía requieren verificación desde un navegador con acceso a Supabase: la red del entorno de desarrollo bloquea la API con CONNECT 403. La cuenta de coordinación debe existir en Supabase Auth y estar autorizada en `admin_users`; el acceso al panel de Supabase no crea esa cuenta automáticamente. No se han creado cuentas ni probado envíos reales desde este entorno. La contraseña de base de datos y el token de administración no forman parte del sitio ni del paquete. Nunca publiques claves privadas, respuestas de briefs ni registros privados de coordinación.
 
 La migración y el procedimiento se documentan en `frontend-prueba/v4/backend/README.md` dentro del repositorio. Estos pasos no se ejecutan al generar el paquete estático.
 
 ## Privacidad de la distribución
 
-`package-v4.py` usa una lista cerrada de archivos de publicación y revisa el seed público: exige 66 filas con solo `id`, `local`, `rubro`, `category` y `name`, sin nombres comerciales en la build base. Rechaza un seed que declare Supabase configurado y no empaqueta JSON de configuración, borradores, trazas ni capturas de QA. El padrón interno no se abre ni se copia durante este proceso.
+`package-v4.py` usa una lista cerrada de archivos de publicación y revisa el seed público: exige 66 filas con solo `id`, `local`, `rubro`, `category` y `name`, sin nombres comerciales en la build base. Cuando se activa Supabase, comprueba el dominio del proyecto autorizado y admite únicamente una clave Publishable; no empaqueta JSON de configuración, borradores, trazas ni capturas de QA. El padrón interno no se abre ni se copia durante este proceso.
